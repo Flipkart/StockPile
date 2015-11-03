@@ -17,6 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSString *documentdir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *tileDirectory = [documentdir stringByAppendingPathComponent:@"xxxx/Tiles"];
+    NSLog(@"Tile Directory: %@", tileDirectory);
     return YES;
 }
 

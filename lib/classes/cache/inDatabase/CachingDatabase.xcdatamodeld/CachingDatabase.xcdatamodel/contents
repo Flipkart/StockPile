@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9048" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 4.3">
+    <entity name="CacheSize" representedClassName="CacheSize" syncable="YES">
+        <attribute name="totalDBSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="CacheTable" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="ttlDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -7,6 +10,7 @@
         <attribute name="value" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
     <elements>
+        <element name="CacheSize" positionX="-477" positionY="93" width="128" height="58"/>
         <element name="CacheTable" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>
 </model>

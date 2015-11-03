@@ -102,7 +102,7 @@
     dataSource.ppathForDiskCaching = [self applicationDocumentsDirectory];
     dataSource.pgetDBName = @"testProjectDatabase.sqlite";
 
-    self.cachingManager = [StockPile getInMemoryDiskCopyCacheUsingData:dataSource];
+    self.cachingManager = [StockPile getInMemoryDBCopyCacheUsingData:dataSource];
 //    _cachingManager = [CacheFactory getCacheWithPolicy:DISK_PERSISTENCE cacheFactoryDataSource:_dataSource];
 }
 
