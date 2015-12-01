@@ -20,4 +20,14 @@
  */
 @property (nonatomic, copy) NSString* dbName;
 
+/*!
+ The maximum element that can be used to store elements
+ */
+@property (nonatomic, assign) NSInteger maxElementsInMemory;
+
+/*!
+ The maximum memory that can be used to store elements
+ */
+@property (nonatomic, assign) NSInteger maxMemoryAllocated;
+
 @end

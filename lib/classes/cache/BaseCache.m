@@ -39,9 +39,7 @@
         @throw [[CachingException alloc] initWithReason:@"Key can't be nil"];
     }
     
-    Node *node = [Node new];
-    node.key = key;
-    node.data = value;
+    Node *node = [[Node alloc] initWithKey:key value:value];
     
     BOOL cached = [self cacheNode:node];
     
