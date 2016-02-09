@@ -21,28 +21,26 @@
 @synthesize dbName = _dbName;
 
 - (CoreDatabaseInterface*) coreDatabaseInterface
-{  
-    if (!_coreDatabaseInterface)
-    {
-        NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
         NSURL* storeURL = [documentsURL URLByAppendingPathComponent:self.dbName];
         [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL objectModelIdentifier:@"CachingDatabase"];
         
         _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:self.dbName];
-    }
+    });
     
     return _coreDatabaseInterface;
 }
 
-- (BOOL) cacheNode: (Node*) node
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
-    __block BOOL isCachingSuccessful = true;
+    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
     
-    dispatch_sync([[self coreDatabaseInterface] getSerialQueue], ^{
-        
-        NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
-        
-        CacheTable* cacheTableEntity = [self getDBRowForKey:node.key];
+    [_managedObjectContext performBlockAndWait:^{
+        CacheTable* cacheTableEntity = [self getDBRowForKey:node.key inContext:_managedObjectContext];
         
         if (cacheTableEntity == nil)
         {
@@ -55,24 +53,19 @@
         cacheTableEntity.ttlDate = node.data.ttlDate;
         cacheTableEntity.value = [NSKeyedArchiver archivedDataWithRootObject:node.data.value];
         
-        NSError* error;
-        
-        if (![_managedObjectContext save:&error])
-        {
-            isCachingSuccessful = false;
-        }
-    });
+        [_managedObjectContext save:outError];
+    }];
     
-    return isCachingSuccessful;
+    return nil;
 }
 
 - (Node*) getNodeForKey:(NSString*) key
 {
     __block Node* node = nil;
-    dispatch_sync([[self coreDatabaseInterface] getSerialQueue], ^{
-        
-        NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
-        
+    
+    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
+    
+    [_managedObjectContext performBlockAndWait:^{
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
                                                   inManagedObjectContext:_managedObjectContext];
@@ -96,15 +89,14 @@
             
             node = [[Node alloc] initWithKey:key value:value];
         }
-    });
+    }];
     
     return node;
 }
 
-- (CacheTable*) getDBRowForKey:(NSString*) key
+- (CacheTable*) getDBRowForKey:(NSString*) key inContext: (NSManagedObjectContext*) _managedObjectContext
 {
     CacheTable* cachedValue = nil;
-    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"

@@ -1,16 +1,16 @@
 //
-//  LRUCache.m
+//  CachingInMemoryHandler.m
 //  Pods
 //
 //  Created by Prabodh Prakash on 01/09/15.
 //
 //
 
-#import "LRUCache.h"
+#import "CachingInMemoryHandler.h"
 #import "LinkedHashMap.h"
 #import "CachingException.h"
 
-@interface LRUCache()
+@interface CachingInMemoryHandler()
 
 @property (nonatomic, strong) LinkedHashMap* linkedHashMap;
 @property (nonatomic, assign) int currentSize;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation LRUCache
+@implementation CachingInMemoryHandler
 
 @synthesize linkedHashMap = _linkedHashMap;
 
@@ -36,11 +36,15 @@
     return self;
 }
 
-- (BOOL) cacheNode: (Node*) node
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
+    NSMutableArray *removedNodes = [NSMutableArray new];
+    
     if (_currentSize == _maxElementsInMemory)
     {
-        [[self linkedHashMap]  removeEndNode];
+        Node* node = [[self linkedHashMap]  removeEndNode];
+        
+        [removedNodes addObject:node];
         _currentSize--;
     }
     
@@ -48,9 +52,11 @@
     
     BOOL canCache = YES;
     
+    
     while ((_maxMemoryAllocated - _currentMemoryUsage) < memoryNeeded)
     {
-        float memoryReduced = [[self linkedHashMap] removeEndNode];
+        Node *endNode = [[self linkedHashMap] removeEndNode];
+        float memoryReduced = endNode.sizeOfData;
         
         if (memoryNeeded < 0)
         {
@@ -63,7 +69,10 @@
     
     if (!canCache)
     {
-        return NO;
+        *outError = [NSError errorWithDomain:@"NotEnoughMemoryError"
+                                        code:-1
+                                    userInfo:nil];
+        return removedNodes;
     }
     
     [[self linkedHashMap] putNode:node];
@@ -71,7 +80,7 @@
     
     _currentSize++;
     
-    return YES;
+    return removedNodes;
 }
 
 - (Node*) getNodeForKey:(NSString*) key

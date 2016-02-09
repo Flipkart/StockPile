@@ -25,4 +25,9 @@
     return [[[InMemoryDbCopyCacheBuilder alloc]initWithCacheDataSource:dataSource] build];
 }
 
++ (id<CacheProtocol>) getInMemoryDBOverflowCacheUsingData:(id<DBCacheDataSource>) dataSource
+{
+    return [[[InMemoryDbOverflowCacheBuilder alloc]initWithCacheDataSource:dataSource] build];
+}
+
 @end

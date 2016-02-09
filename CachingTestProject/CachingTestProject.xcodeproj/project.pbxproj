@@ -167,6 +167,7 @@
 				BF7321FC1B8EE23C00E7B0AA /* Frameworks */,
 				BF7321FD1B8EE23C00E7B0AA /* Resources */,
 				E89F56935C8CAE512EB5DDCF /* Copy Pods Resources */,
+				13D3A6A33F1060F02052CE39 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -186,6 +187,7 @@
 				BF7322151B8EE23C00E7B0AA /* Frameworks */,
 				BF7322161B8EE23C00E7B0AA /* Resources */,
 				CA5AB246BFBEAB42A4A8D988 /* Copy Pods Resources */,
+				1882787FF010619562C08026 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,6 +257,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		13D3A6A33F1060F02052CE39 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1882787FF010619562C08026 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProjectTests/Pods-CachingTestProjectTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F709D27ECCCE27FD22175D7 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,10 +487,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				INFOPLIST_FILE = CachingTestProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipkart.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -472,10 +501,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				INFOPLIST_FILE = CachingTestProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipkart.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

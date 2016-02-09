@@ -14,10 +14,8 @@
 
 @synthesize filePath = _filePath;
 
-- (BOOL) cacheNode: (Node*) node
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
-    BOOL isCached = YES;
-    
     NSString *filePath = [self.filePath stringByAppendingPathComponent:node.key];
     
     NSData* fileData = [NSKeyedArchiver archivedDataWithRootObject:node.data];
@@ -28,28 +26,22 @@
     {
         [fileManager createFileAtPath:filePath contents:fileData attributes:nil];
         
-        NSError* error;
         NSData* ttlDate = [NSKeyedArchiver archivedDataWithRootObject:node.data.ttlDate];
         
-        [fileManager setData:ttlDate forExtendedAttribute:@"ttlDate" ofItemAtPath:filePath error:&error];
+        [fileManager setData:ttlDate forExtendedAttribute:@"ttlDate" ofItemAtPath:filePath error:outError];
     }
     else
     {
-        NSError* error = nil;
         
-        [fileManager removeItemAtPath:filePath error:&error];
+        [fileManager removeItemAtPath:filePath error:outError];
         
-        if (!error)
+        if (!*outError)
         {
             [fileManager createFileAtPath:filePath contents:fileData attributes:nil];
         }
-        else
-        {
-            isCached = NO;
-        }
     }
     
-    return isCached;
+    return nil;
 }
 
 - (Node*) getNodeForKey:(NSString*) key

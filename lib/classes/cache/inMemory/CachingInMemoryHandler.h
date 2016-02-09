@@ -1,5 +1,5 @@
 //
-//  LRUCache.h
+//  CachingInMemoryHandler.h
 //  Pods
 //
 //  Created by Prabodh Prakash on 01/09/15.
@@ -8,14 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "Node.h"
-#import "CachingDatabaseHandler.h"
-#import "CachingDiskHandler.h"
 #import "BaseCache.h"
 
 /*!
  This class provides standard implementation of LRU Cache.
  */
-@interface LRUCache : BaseCache
+@interface CachingInMemoryHandler : BaseCache
 
 /*!
  The maximum number of elements that can be stored in memory.

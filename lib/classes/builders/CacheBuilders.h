@@ -88,4 +88,7 @@ typedef void (^BuilderBlock)(CachingManager *);
 @interface InMemoryDbCopyCacheBuilder : InMemoryCacheBuilder
 @end
 
+@interface InMemoryDbOverflowCacheBuilder : InMemoryCacheBuilder
+@end
+
 

@@ -79,9 +79,10 @@
     }
     else if (_endNode == nil)
     {
-        _endNode = node;
+        _endNode = _startNode;
+        _startNode = node;
         _endNode.previousNode = _startNode;
-        _startNode.nextNode = node;
+        _startNode.nextNode = _endNode;
         _endNode.nextNode = nil;
     }
     else
@@ -162,16 +163,16 @@
     node.nextNode.previousNode = node.previousNode;
 }
 
-- (float) removeEndNode
+- (Node*) removeEndNode
 {
     if (_endNode == nil)
     {
-        return -1;
+        return nil;
     }
     
-    id<NSCopying, NSMutableCopying, NSSecureCoding> key = _endNode.key;
+    Node* returnNode = _endNode;
     
-    float sizeOccupied = _endNode.sizeOfData;
+    id<NSCopying, NSMutableCopying, NSSecureCoding> key = _endNode.key;
     
     [_lookupDictionary removeObjectForKey:key];
     
@@ -179,7 +180,7 @@
     
     _endNode = _endNode.previousNode;
     
-    return sizeOccupied;
+    return returnNode;
 }
 
 @end

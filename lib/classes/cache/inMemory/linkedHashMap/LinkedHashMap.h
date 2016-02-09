@@ -75,6 +75,6 @@
 /*!
  This function removes the last node.
  */
-- (float) removeEndNode;
+- (Node*) removeEndNode;
 
 @end
