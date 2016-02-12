@@ -5,7 +5,7 @@
  - You need cocoapods installed on you mac.
   
 
-### Cocoapods
+### CocoaPods
 
 Install pods
 [http://cocoapods.org/](http://cocoapods.org/)
